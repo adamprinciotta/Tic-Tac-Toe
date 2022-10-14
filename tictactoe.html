@@ -1,0 +1,207 @@
+<!--Author: Adam Princiotta-->
+<!DOCTYPE html>
+<html>
+  <script>
+  function start(){ //Function to run when the page loads, displaying the first turn
+    document.turn = "X";
+    CurrentTurn(document.turn + 's Turn');
+  }
+  
+  function CurrentTurn(shape){ //Displays what who's turn it is by showing the shape
+    document.getElementById("currPlayer").innerText = shape;
+  }
+
+  function ChangeTurn(){//Changes turn, first checks to see if there is a winner, then flips shapes if there is not
+    if(checkForWinner(document.turn)){
+      CurrentTurn("CONGRATS " + document.turn + " Wins!");
+    }
+    else if(document.turn == "X"){
+      document.turn = "O";
+      CurrentTurn(document.turn + "s Turn");
+    }
+    else if(document.turn == "O"){ 
+      document.turn = "X";
+      CurrentTurn(document.turn + "s Turn");
+    }
+  }
+
+  function playTurn(cell){//Plays turn if is not a shape in the cell that was clicked
+    if(checkForWinner("X") || checkForWinner("O")){
+    }
+    else if(cell.innerText != "X" && cell.innerText != "O"){
+      cell.innerText = document.turn;
+      ChangeTurn();
+    }
+    
+    var start = document.getElementById('TL');  //Code ideas from https://stackoverflow.com/questions/22817451/use-arrow-keys-to-navigate-an-html-table
+    start.focus();
+    start.style.backgroundColor = 'white';
+    start.style.color = 'black';
+
+    function nextCell(sibling) {
+      if (sibling != null) {
+        start.style.backgroundColor = '';
+        start.style.color = '';
+        sibling.focus();
+        start = sibling;
+      }
+    }
+
+    document.onkeydown = checkKey;
+
+    function checkKey(e) {
+      if (e.keyCode == '38') {        //up arrow
+        var index = start.cellIndex;
+        var nextRow = start.parentElement.previousElementSibling;
+        if (nextRow != null) {
+          var sibling = nextRow.cells[index];
+          nextCell(sibling);
+        }
+      } else if (e.keyCode == '40') { //down arrow
+        var index = start.cellIndex;
+        var nextRow = start.parentElement.nextElementSibling;
+        if (nextRow != null) {
+          var sibling = nextRow.cells[index];
+          nextCell(sibling);
+        }
+      } else if (e.keyCode == '37') { // left arrow
+        var sibling = start.previousElementSibling;
+        nextCell(sibling);
+      } else if (e.keyCode == '39') { // right arrow
+        var sibling = start.nextElementSibling;
+        nextCell(sibling);
+      }
+    }
+  }
+
+  function playTurnKeyboard(e, cell){//Plays turn if is not a shape in the cell that was tabbed and entered
+    if (e.keyCode == 13) {
+      if(checkForWinner("X") || checkForWinner("O")){
+      }
+      else if(cell.innerText != "X" && cell.innerText != "O"){
+        cell.innerText = document.turn;
+        ChangeTurn();
+      }
+    }
+
+    var start = document.getElementById('TL');  //Code ideas from https://stackoverflow.com/questions/22817451/use-arrow-keys-to-navigate-an-html-table
+    start.focus();
+    start.style.backgroundColor = 'white';
+    start.style.color = 'black';
+
+    function nextCell(sibling) {
+      if (sibling != null) {
+        start.style.backgroundColor = '';
+        start.style.color = '';
+        sibling.focus();
+        start = sibling;
+      }
+    }
+
+    document.onkeydown = checkKey;
+
+    function checkKey(e) {
+      if (e.keyCode == '38') {        //up arrow
+        var index = start.cellIndex;
+        var nextRow = start.parentElement.previousElementSibling;
+        if (nextRow != null) {
+          var sibling = nextRow.cells[index];
+          nextCell(sibling);
+        }
+      } else if (e.keyCode == '40') { //down arrow
+        var index = start.cellIndex;
+        var nextRow = start.parentElement.nextElementSibling;
+        if (nextRow != null) {
+          var sibling = nextRow.cells[index];
+          nextCell(sibling);
+        }
+      } else if (e.keyCode == '37') { // left arrow
+        var sibling = start.previousElementSibling;
+        nextCell(sibling);
+      } else if (e.keyCode == '39') { // right arrow
+        var sibling = start.nextElementSibling;
+        nextCell(sibling);
+      }
+    }
+  }
+
+  function checkForWinner(shape){ //Calls 3 functions which checks if there is a winner based off the last move, returns true or false
+    var winner = false;
+    if(checkRows(shape)){
+      winner = true;
+    }
+    if(checkCols(shape)){
+      winner = true;
+    }
+    if(checkDiags(shape)){
+      winner = true;
+    }
+    return winner;
+  }
+  
+  function checkRows(shape){ //Checks the 3 rows and returns true if any full row has the same shape as what was just played
+    var winner = false;
+    if(document.getElementById("TL").innerText == shape && document.getElementById("TM").innerText == shape && document.getElementById("TR").innerText == shape){
+      winner = true;
+    }
+    else if(document.getElementById("ML").innerText == shape && document.getElementById("MM").innerText == shape && document.getElementById("MR").innerText == shape){
+      winner = true;
+    }
+    else if(document.getElementById("BL").innerText == shape && document.getElementById("BM").innerText == shape && document.getElementById("BR").innerText == shape){
+      winner = true;
+    }
+    return winner;
+  }
+
+  function checkCols(shape){ //Checks the 3 columns and returns true if any full column has the same shape as what was just played
+    var winner = false;
+    if(document.getElementById("TL").innerText == shape && document.getElementById("ML").innerText == shape && document.getElementById("BL").innerText == shape){
+      winner = true;
+    }
+    else if(document.getElementById("TM").innerText == shape && document.getElementById("MM").innerText == shape && document.getElementById("BM").innerText == shape){
+      winner = true;
+    }
+    if(document.getElementById("TR").innerText == shape && document.getElementById("MR").innerText == shape && document.getElementById("BR").innerText == shape){
+      winner = true;
+    }
+    return winner;
+  }
+  function checkDiags(shape){ //Checks the 2 diagonals and returns true if any full diagonal has the same shape as what was just played
+    var winner = false;
+    if(document.getElementById("TL").innerText == shape && document.getElementById("MM").innerText == shape && document.getElementById("BR").innerText == shape){
+      winner = true;
+    }
+    else if(document.getElementById("TR").innerText == shape && document.getElementById("MM").innerText == shape && document.getElementById("BL").innerText == shape){
+      winner = true;
+    }
+    return winner;
+  }
+  </script>
+  <title> Tic Tac Toe </title>
+  <h1></h1>
+<body onload = "start()"> 
+    Tic Tac Toe
+  <div id="currPlayer">Current player: </div>
+    <!-- <link rel = "stylesheet" href = "tictactoe.css" /> -->
+    <meta charset = "utf-8">
+        <meta name = "viewport" content = "width=device-width, inital-scale=1">
+        <link rel="stylesheet" media="(min-width:500px)" href="tictactoe.css">
+        <link rel="stylesheet" media="(max-width:499px)" href="tictactoeMobile.css">
+<table> <!--Table for the board-->
+<tr> <!-- ID's will have T for top, M for middle, B for bottom, L for left, R for right !-->
+  <td id = "TL" tabindex="0" onclick = "playTurn(this);" onkeypress = "playTurnKeyboard(event, this);"></td>
+  <td id = "TM" tabindex="0" onclick = "playTurn(this);" onkeypress = "playTurnKeyboard(event, this);"></td>
+  <td id = "TR" tabindex="0" onclick = "playTurn(this);" onkeypress = "playTurnKeyboard(event, this);"></td>
+</tr>
+<tr>
+  <td id = "ML" tabindex="0" onclick = "playTurn(this);" onkeypress = "playTurnKeyboard(event, this);"></td>
+  <td id = "MM" tabindex="0" onclick = "playTurn(this);" onkeypress = "playTurnKeyboard(event, this);"></td>
+  <td id = "MR" tabindex="0" onclick = "playTurn(this);" onkeypress = "playTurnKeyboard(event, this);"></td>
+</tr>
+<tr>
+  <td id = "BL" tabindex="0" onclick = "playTurn(this);" onkeypress = "playTurnKeyboard(event, this);"></td>
+  <td id = "BM" tabindex="0" onclick = "playTurn(this);" onkeypress = "playTurnKeyboard(event, this);"></td>
+  <td id = "BR" tabindex="0" onclick = "playTurn(this);" onkeypress = "playTurnKeyboard(event, this);"></td>
+</table>
+</body>
+</html>

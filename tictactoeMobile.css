@@ -1,0 +1,20 @@
+body {
+  background-color: lightgreen;
+  font-size: 40px;
+  text-align: center;
+}
+table, th, td {
+  font-size: 75px;
+  border: 2px solid black;
+  empty-cells: show;
+  margin-left: auto;
+  margin-right: auto;
+}
+td:hover {
+  background-color: white;
+}
+td{
+  width: 90px; /*The smallest screen size I saw was 320 x 480*/
+  height: 90px; /*This set of pixels fit it well*/
+  text-align: center;
+}

@@ -1,0 +1,22 @@
+body {
+  background-color: lightgreen;
+  font-size: 50px;
+  text-align: center;
+}
+table, th, td {
+  font-size: 100px;
+  border: 2px solid black;
+  margin-left: auto;
+  margin-right: auto;
+}
+td:hover {
+  background-color: white;
+}
+td{
+  width: 150px;
+  height: 150px;
+  text-align: center;
+}
+td:focus {
+  background-color: white;
+}
